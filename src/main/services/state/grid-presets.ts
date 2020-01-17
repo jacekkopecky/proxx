@@ -13,6 +13,8 @@
 
 // WARNING: This module is part of the main bundle. Avoid adding to it if possible.
 
+import { listSizes } from "./best-times";
+
 export const presets = {
   easy: { width: 8, height: 8, mines: 10 },
   medium: { width: 16, height: 16, mines: 40 },
@@ -20,6 +22,30 @@ export const presets = {
 };
 
 export type PresetName = keyof typeof presets;
+
+listSizes().then(sizes => {
+  console.log("sizes are", sizes);
+  for (const { width, height, mines } of sizes) {
+    console.log("doing");
+    const matches = (preset: any) =>
+      preset.width === width &&
+      preset.height === height &&
+      preset.mines === mines;
+    if (!Object.values(presets).some(matches)) {
+      presets[`custom ${width}x${height}@${mines}` as PresetName] = {
+        width,
+        height,
+        mines
+      };
+      console.log("added one", { width, height, mines });
+    } else {
+      console.log("rejected one", { width, height, mines });
+    }
+    // find it in presets
+    // if not, add it there
+  }
+  console.log("done");
+});
 
 export function getPresetName(
   width: number,

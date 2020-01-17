@@ -1,10 +1,12 @@
-import { get, set } from "idb-keyval";
+import { get, keys, set } from "idb-keyval";
 
 function getKey(width: number, height: number, mines: number) {
-  // Order width and height, because a 90 degree rotated board is the same thing in terms of
-  // difficulty.
-  const [size1, size2] = [width, height].sort((a, b) => a - b);
-  return `hs:${size1}:${size2}:${mines}`;
+  return `hs:${width}:${height}:${mines}`;
+}
+
+function parseKey(key: string) {
+  const [, width, height, mines] = key.split(":").map(Number);
+  return { width, height, mines };
 }
 
 /**
@@ -31,6 +33,14 @@ export async function submitTime(
   // This is technically racy if someone finishes two games at the same time, but… who?
   set(key, time);
   return time;
+}
+
+export async function listSizes() {
+  const dbKeys = await keys();
+  console.log({ dbKeys });
+  return dbKeys
+    .map(key => parseKey(key as string))
+    .filter(({ width }) => !isNaN(width));
 }
 
 /** Get best time for a given board */

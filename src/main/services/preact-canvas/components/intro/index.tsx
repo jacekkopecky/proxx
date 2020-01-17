@@ -159,6 +159,12 @@ export default class Intro extends Component<Props, State> {
   }
 
   render({ motion }: Props, { width, height, mines, presetName }: State) {
+    const options = [];
+    for (const [presetName, preset] of Object.entries(presets)) {
+      options.push(<option value={presetName}>{presetName}</option>);
+    }
+    options.push(<option value="custom">Custom</option>);
+
     return (
       <div class={introStyle}>
         <div class={showbizIntroStyle}>
@@ -184,12 +190,7 @@ export default class Intro extends Component<Props, State> {
                 onChange={this._onSelectChange}
                 value={presetName || ""}
               >
-                {presetName && [
-                  <option value="easy">Easy</option>,
-                  <option value="medium">Medium</option>,
-                  <option value="hard">Hard</option>,
-                  <option value="custom">Custom</option>
-                ]}
+                {presetName && options}
               </select>
             </label>
           </div>
