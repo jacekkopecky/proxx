@@ -118,7 +118,7 @@ export default class Game extends Component<Props, State> {
             onMainMenu={this.onReset}
             onRestart={this.onRestart}
             time={completeTime}
-            bestTime={bestTime}
+            bestTime={previousBestTime || bestTime}
             width={width}
             height={height}
             mines={mines}

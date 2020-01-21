@@ -99,7 +99,7 @@ export default class End extends Component<Props, State> {
             </div>
           </div>
           <h2 class={winState}>
-            {time === bestTime ? "New high score!" : "You win!"}{" "}
+            {time < bestTime ? "New high score!" : "You win!"}{" "}
             <span class={gridNameStyle}>({gridName})</span>
           </h2>
           <div class={scoreRow}>
@@ -109,7 +109,9 @@ export default class End extends Component<Props, State> {
             </div>
             <Timer class={timerIcon} />
             <div class={score}>
-              <div class={timeLabel}>Best</div>
+              <div class={timeLabel}>
+                {time < bestTime ? "Previous" : "Best"}
+              </div>
               <div class={timeStyle}>{bestTimeStr}</div>
             </div>
           </div>
